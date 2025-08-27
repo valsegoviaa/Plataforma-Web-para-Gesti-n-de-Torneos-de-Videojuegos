@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="titulo-seccion">RESULTADOS DEL TORNEO</h2>
+
+<table class="tabla-puntajes tabla-rosa">
+    <thead>
+        <tr class="fila-header">
+            <th>Posición</th>
+            <th>Nombre</th>
+            <th>Victorias</th>
+            <th>Empates</th>
+            <th>Derrotas</th>
+            <th>Puntaje Total</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in participantes %}
+    <tr class="fila-participante">
+
+        <td>
+            {% if loop.index == 1 %}
+                <img src="{{ url_for('static', filename='recursos/primer_lugar.png') }}" alt="1º" class="icon-ranking">
+            {% elif loop.index == 2 %}
+                <img src="{{ url_for('static', filename='recursos/segundo_lugar.png') }}" alt="2º" class="icon-ranking">
+            {% elif loop.index == 3 %}
+                <img src="{{ url_for('static', filename='recursos/tercer_lugar.png') }}" alt="3º" class="icon-ranking">
+            {% else %}
+                {{ loop.index }}
+            {% endif %}
+        </td>
+        <td>{{ p['nombre'] }}</td>
+        <td>{{ p['victorias'] or 0 }}</td>
+        <td>{{ p['empates'] or 0 }}</td>
+        <td>{{ p['derrotas'] or 0 }}</td>
+        <td>{{ p['puntaje'] or 0 }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+</table>
+<a href="{{ url_for('grafica') }}" class="estadisticas-btn" title="Ver gráficas" style="text-align:center; display:inline-block;">
+    <img src="{{ url_for('static', filename='recursos/grafica_icono.gif') }}" alt="GRÁFICAS" class="icono-trofeo" style="width:100px; height:100px;">
+    <span class="texto-resultados">GRÁFICAS</span>
+</a>
+
+
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{{ url_for('index') }}" class="btn-panel-admin">Inicio</a>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn">Atrás</a>
+</div>
+{% endblock %}

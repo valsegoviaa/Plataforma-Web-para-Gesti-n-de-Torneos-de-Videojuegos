@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Panel de Administración</h1>
+
+        <nav>
+            <a href="{{ url_for('index') }}">Inicio</a>
+            <a href="{{ url_for('asignar_puntajes') }}" class="btn-asignar-puntajes">Asignar puntajes</a>
+            <a href="{{ url_for('estadisticas') }}" class="btn-estadisticas">Estadísticas</a>
+
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        </nav>
+
+        <div class="section">
+            <h2>Resumen rápido</h2>
+            <p>Bienvenido, {{ session.get('user_name') }}. Aquí puedes administrar los participantes y torneos.</p>
+
+            <!-- Ejemplo tabla resumen participantes -->
+            <h3>Participantes registrados</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Juego</th>
+                        <th>Nivel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participante in participantes %}
+                    <tr>
+                        <td>{{ participante.nombre }}</td>
+                        <td>{{ participante.email }}</td>
+                        <td>LOL</td>
+                        <td>{{ participante.nivel }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="4">No hay participantes registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

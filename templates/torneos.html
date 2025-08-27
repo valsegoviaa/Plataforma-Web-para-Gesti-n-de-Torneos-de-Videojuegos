@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lista de Torneos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 1rem;
+        }
+        input[type="text"] {
+            padding: 0.4rem;
+            width: 200px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            border: none;
+            background-color: #ff80b5;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff5f9e;
+        }
+        a {
+            margin-right: 1rem;
+            color: #d6336c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #ff80b5;
+            color: white;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0;
+        }
+        ul li {
+            margin-bottom: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Torneos Registrados</h1>
+
+    <form method="get" action="{{ url_for('torneos') }}">
+        <input type="text" name="buscar" placeholder="Buscar torneo" value="{{ request.args.get('buscar', '') }}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <ul>
+        {% for torneo in torneos %}
+            <li>
+                {{ torneo.nombre }}
+                <a href="{{ url_for('edit_torneo', id=torneo.id) }}">Editar</a> |
+                <a href="{{ url_for('delete_torneo', id=torneo.id) }}" onclick="return confirm('¿Seguro que quieres eliminar este torneo?');">Eliminar</a>
+            </li>
+        {% else %}
+            <li>No hay torneos registrados.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('add_torneo') }}">Agregar Torneo</a>
+    <a href="{{ url_for('index') }}">Volver al inicio</a>
+
+    <h2>Participantes</h2>
+    <p>Total participantes: {{ participantes|length }}</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Juego</th>
+                <th>Nivel</th>
+                <th>Torneo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for participante in participantes %}
+            <tr>
+                <td>{{ participante.nombre }}</td>
+                <td>{{ participante.edad }}</td>
+                <td>{{ participante.juego }}</td>
+                <td>{{ participante.nivel }}</td>
+                <td>{{ participante.torneo }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5">No hay participantes registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

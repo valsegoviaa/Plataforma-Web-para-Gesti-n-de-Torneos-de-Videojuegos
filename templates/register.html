@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Registro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #dff2fb; /* azul bebé */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-top: 1.2rem;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 0.6rem;
+            margin-top: 0.3rem;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 1.8rem;
+            width: 100%;
+            padding: 0.7rem;
+            background-color: #ff80b5; /* rosa */
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #ff5f9e;
+        }
+
+        .error {
+            color: red;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Registro</h1>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('register') }}">
+            <label for="usuario">Nombre:</label>
+            <input type="text" name="usuario" id="usuario" required>
+
+            <label for="edad">Edad:</label>
+            <input type="number" name="edad" id="edad" required>
+
+            <label for="juego">Juego:</label>
+            <input type="text" name="juego" id="juego" value="LOL" readonly>
+
+            <label for="nivel">Nivel:</label>
+            <select name="nivel" id="nivel" required>
+                <option value="">Selecciona un nivel</option>
+                <option value="principiante">Principiante</option>
+                <option value="intermedio">Intermedio</option>
+                <option value="avanzado">Avanzado</option>
+            </select>
+
+            <label for="torneo">Torneo:</label>
+            <input type="text" name="torneo" id="torneo" value="LOL World" readonly>
+
+            <label for="email">Correo electrónico:</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" name="contrasena" id="contrasena" required>
+
+
+
+            <button type="submit">Registrarse</button>
+        </form>
+
+        <a class="back-link" href="{{ url_for('login') }}">¿Ya tienes cuenta? Inicia sesión</a>
+    </div>
+</body>
+</html>

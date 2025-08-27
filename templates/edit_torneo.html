@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Torneo{% endblock %}
+
+{% block content %}
+<h1>Editar Torneo</h1>
+<form method="POST">
+    <label for="nombre">Nombre del Torneo:</label>
+    <input type="text" name="nombre" id="nombre" value="{{ torneo.nombre }}" required><br><br>
+
+    <button type="submit">Actualizar Torneo</button>
+</form>
+
+<a href="{{ url_for('torneos') }}">Volver</a>
+{% endblock %}

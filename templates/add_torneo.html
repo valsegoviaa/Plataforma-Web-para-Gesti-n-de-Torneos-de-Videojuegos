@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Torneo</title>
+</head>
+<body>
+    <h1>Agregar Torneo</h1>
+    <form method="POST">
+        <label for="nombre">Nombre del Torneo:</label>
+        <input type="text" name="nombre" id="nombre" required><br><br>
+
+        <input type="submit" value="Agregar Torneo">
+    </form>
+
+    <a href="{{ url_for('torneos') }}">Volver</a>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Mi Torneo{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+<header>
+    {% if not session.get('user_id') %}
+        <a href="{{ url_for('login') }}">Iniciar sesión</a>
+    {% else %}
+        <div class="user-box">
+            <span class="saludo">Hola, {{ session['user_name'] }}</span>
+            <a href="{{ url_for('logout') }}" class="cerrar-sesion">Cerrar sesión</a>
+        </div>
+    {% endif %}
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

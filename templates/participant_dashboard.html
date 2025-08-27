@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard Participante</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main>
+        <h1 class="titulo-seccion">Bienvenido participante {{ nombre }}</h1>
+
+        <section>
+            <h2>Torneos en los que estás inscrito:</h2>
+            <ul class="lista-torneos">
+                {% for torneo in torneos %}
+                    <li>{{ torneo['nombre'] }}</li>
+                {% else %}
+                    <li>No estás inscrito en ningún torneo.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <a href="{{ url_for('logout') }}" class="btn-asignar-puntajes">Cerrar sesión</a>
+    </main>
+</body>
+</html>

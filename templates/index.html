@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Participantes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #e0f7fa; /* azul bebé */
+            font-family: 'Segoe UI', sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff69b4;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            width: 250px;
+        }
+
+        .search-bar button {
+            padding: 8px 12px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .auth {
+            text-align: right;
+        }
+
+        .auth a {
+            background-color: #999;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #ffccdd;
+            color: #444;
+        }
+
+        a.btn {
+            padding: 6px 10px;
+            background-color: #ff69b4;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9em;
+            margin: 0 3px;
+        }
+
+        .add-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #4fc3f7;
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+    <script>
+        function confirmDelete(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este participante?')) {
+                window.location.href = '/delete_participant/' + id;
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="top-bar">
+
+        <form class="search-bar" method="get" action="{{ url_for('index') }}">
+            <input type="text" name="buscar" placeholder="Buscar por nombre, juego o torneo" value="{{ request.args.get('buscar', '') }}">
+            <button type="submit">Buscar</button>
+        </form>
+
+        <a href="{{ url_for('estadisticas') }}" class="estadisticas-btn" title="Ver estadísticas" style="text-align:center; display:inline-block;">
+            <img src="{{ url_for('static', filename='recursos/trofeo.gif') }}" alt="RESULTADOS" class="icono-trofeo">
+            <span class="texto-resultados">RESULTADOS</span>
+        </a>
+
+
+
+        <div class="auth">
+            {% if not session.get('user_id') %}
+                <a href="{{ url_for('login') }}">Iniciar sesión</a>
+            {% else %}
+                <span>Hola, {{ session['user_name'] }}</span>
+                {% if session.get('user_role') == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn-panel-admin">Panel Admin</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+            {% endif %}
+        </div>
+
+
+    </div>
+
+    <h1>Participantes del Torneo</h1>
+
+    <table>
+    <tr>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Juego</th>
+        <th>Nivel</th>
+        <th>Torneo</th>
+        <th>Acciones</th>
+    </tr>
+    {% for participante in participantes %}
+    <tr>
+        <td>{{ participante[1] }}</td>  <!-- nombre -->
+        <td>{{ participante[3] }}</td>  <!-- edad -->
+        <td>{{ participante[4] }}</td>  <!-- juego -->
+        <td>{{ participante[2] }}</td>  <!-- nivel -->
+        <td>{{ torneo }}</td>            <!-- torneo fijo -->
+        <td>
+            <a href="{{ url_for('edit_participant', id=participante[0]) }}" class="btn">Editar</a>
+            <a href="javascript:void(0);" onclick="confirmDelete({{ participante[0] }})" class="btn">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+    {% if participantes|length == 0 %}
+    <tr>
+        <td colspan="7">No hay participantes registrados.</td>
+    </tr>
+    {% endif %}
+</table>
+
+
+    <a href="{{ url_for('add_participant') }}" class="add-btn">➕ Añadir Participante</a>
+
+</body>
+</html>

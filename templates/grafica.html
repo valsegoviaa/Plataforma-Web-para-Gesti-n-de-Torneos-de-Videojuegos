@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Gráfica de Participantes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #b3d4fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 0; padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        .saludo {
+            font-weight: 700;
+            color: #d6336c;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+        }
+        .botones-header {
+            display: flex;
+            gap: 10px;
+        }
+        button, .btn {
+            background-color: #d6336c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button:hover, .btn:hover {
+            background-color: #a02749;
+        }
+        .contenedor-grafica {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #d6336c;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        canvas {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+        .botones-navegacion {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="saludo">Hola, {{ session['user_name'] }}</div>
+    <div class="botones-header">
+        <a href="{{ url_for('logout') }}" class="btn">Cerrar sesión</a>
+    </div>
+</header>
+
+<div class="contenedor-grafica">
+    <h2>Gráfica de Puntajes</h2>
+    <canvas id="miGrafica"></canvas>
+
+    <div class="botones-navegacion">
+        <a href="{{ url_for('index') }}" class="btn">Inicio</a>
+        <a href="{{ url_for('estadisticas') }}" class="btn">Atrás</a>
+    </div>
+</div>
+
+<script>
+const ctx = document.getElementById('miGrafica').getContext('2d');
+const data = {
+  labels: ['Partidas Ganadas', 'Partidas Empatadas', 'Partidas Perdidas'],
+  datasets: [{
+    data: [{{ ganadas }}, {{ empatadas }}, {{ perdidas }}],
+    backgroundColor: [
+      '#69ff79',   // verde para ganadas
+      '#69d8ff',   // azul para empatadas
+      '#ffd469'    // naranja para perdidas
+    ],
+    borderWidth: 1
+  }]
+};
+
+const config = {
+  type: 'doughnut',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Resumen total de partidas'
+      }
+    }
+  }
+};
+
+const myChart = new Chart(ctx, config);
+</script>
+
+</body>
+</html>
