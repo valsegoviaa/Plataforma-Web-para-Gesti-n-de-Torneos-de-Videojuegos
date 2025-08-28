@@ -26,6 +26,14 @@ Incluye funcionalidades de registro de usuarios, gestión de participantes y adm
 - **HTML + CSS** (interfaz de usuario)  
 - **PyCharm** (entorno de desarrollo)  
 
+## 📦 Instalación de dependencias
+
+Este proyecto utiliza **Flask**. Para instalarlo:
+
+```bash
+pip install flask
+
+
 ---
 
 ## 📂 Estructura del proyecto  
